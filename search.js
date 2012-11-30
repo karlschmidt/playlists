@@ -29,7 +29,7 @@ SearchWidget.prototype.search = function(query) {
   var results = document.getElementById('search-results');
   /* Clear the results. */
   results.innerHTML = '';
-  SC.get('/tracks', { q: query}, bind(this, this.renderResults));
+  SC.get('/tracks', {q: query, filter: 'streamable'}, bind(this, this.renderResults));
 }
 
 /**
