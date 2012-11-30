@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- This file contains most elements which occur only once on the site,
+  with style display:none. Playlist set items and tracks, of which there are
+  multiple instances, are created in Javascript. -->
+<html>
+  <head>
+    <link rel="stylesheet" href="playlists.css" />
+    <script type="text/javascript" src="main.js"></script>
+    <script type="text/javascript" src="history.js"></script>
+    <script type="text/javascript" src="models.js"></script>
+    <script type="text/javascript" src="views.js"></script>
+    <script type="text/javascript" src="player.js"></script>
+    <script type="text/javascript" src="search.js"></script>
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
+  </head>
+  <body>
+    <h1>SoundCloud Playlists<button id="undo">Undo</button></h1>
+    <div class="right"></div>
+    <div>
+      <!-- Listing of of all playlist titles. -->
+      <div id="my-playlists" class="playlists" style="display:none">
+        <h2>My Playlists</h2>
+        <div id="playlist-set"></div>
+        <button id="new-playlist">New Playlist</button>
+      </div>
+      <!-- Detailed view of a single playlist -->
+      <div id="playlist" style="display:none">
+        <div>
+          <button id="my-playlists-button">My Playlists</button>
+          <button id="player">Play</button>          
+          <button id="delete-playlist">Delete Playlist</button>
+        </div>
+        <div class="title">
+          <span id="title" class="title">Title</span>
+          <form id="title-form" class="title" style="display:none">
+            <input id="title-input" type="text" />
+          </form>
+        </div>
+        <div class="description">
+          <span id="description">description</span>
+            <form id="description-form" style="display:none">
+              <textarea id="description-textarea"></textarea>
+              <input type="submit" value="Ok"/>
+            </form>
+        </div>
+        <div id="tracks"></div>
+        <div class="add-track">Add Tracks
+          <form id="search">
+            <input id="search-query" type="text" />
+            <input type="submit" value="Search SoundCloud" />
+          </form>
+          <div id="search-results"></div>
+        </div>
+      </div>
+    </div>
+    <script>onLoad()</script>
+  </body>
+</html>

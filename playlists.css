@@ -1,0 +1,92 @@
+div, h1 {
+  font-family: sans-serif;
+}
+h1 {
+  font-size: 24px;
+  font-weight: normal;
+}
+h2 {
+  font-size: 18px;
+  font-weight: bold;
+}
+#undo {
+  position: absolute;
+  right: 20px;
+}
+#playlist-set, #new-playlist {
+  margin-left: 20px;
+}
+#playlist-set div {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+.menu {
+  margin-top: 10px;
+}
+#player {
+  margin-left: 80px;
+}
+#delete-playlist {
+  position: absolute;
+  right: 20px;
+}
+div.title {
+  margin-left: 20px;
+  margin-top: 30px;
+  margin-bottom: 20px;
+}
+div.title span.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+.title input {
+  font-size: 16px;
+}
+#title, #description {
+  padding: 3px;
+}
+#title:hover, #description:hover {
+  background: #eeeeff;
+  border: 1px solid #8888ff;
+  padding: 2px;
+}
+div.description {
+  margin-left: 20px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+.gray {
+  color: gray;
+}
+#tracks {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+.track, .search-track {
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+.track .user, .search-track .user {
+  min-width: 100px;
+  padding-right: 10px;
+}
+.track .user, .search-track .user {
+  min-width: 100px;
+  margin-right: 10px;
+}
+.track button {
+  margin-left: 20px;
+}
+.search-track button {
+  margin-left: 10px;
+}
+.add-track {
+  margin-left: 20px;
+  margin-top: 30px;
+  font-size: 14px;
+}
+#search {
+  margin-top: 3px;
+  margin-bottom: 10px;
+}
