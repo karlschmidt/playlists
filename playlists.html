@@ -13,8 +13,13 @@
     <script type="text/javascript" src="search.js"></script>
     <script src="http://connect.soundcloud.com/sdk.js"></script>
   </head>
-  <body>
-    <h1>SoundCloud Playlists<button id="undo">Undo</button></h1>
+  <body onload="onLoad()">
+    <div class="header">
+      <span class="header">SoundCloud Playlists</span>
+      <img id="connect" src="http://connect.soundcloud.com/2/btn-connect-sc-s.png"></img>
+      <span id="username" style="display:none"></span>
+      <button id="undo">Undo</button>
+    </div>
     <div class="right"></div>
     <div>
       <!-- Listing of of all playlist titles. -->
@@ -51,8 +56,11 @@
           </form>
           <div id="search-results"></div>
         </div>
+        <div id="my-tracks-div" style="display:none">
+          <div class="my-tracks-header">My Private Tracks</div>
+          <div id="my-tracks"></div>
+        </div>
       </div>
     </div>
-    <script>onLoad()</script>
   </body>
 </html>

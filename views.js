@@ -6,7 +6,7 @@
  * views but this was considered not necessary for this simple application:
  * A PlaylistSet is rendered by a PlaylistSetView.
  * A Playlist model is rendered by a PlaylistView, TitleView, DescriptionView,
- * Player, and SearchWidget.
+ * Player, SearchWidget, and MyTracksView.
  * Player and SearchWidget do not use a model-view pattern.
  * PlalistView, TitleView, and DescriptionView install notification callbacks in
  * a Playlist, but each callback is set by only one of them. (This simplistic
@@ -110,7 +110,8 @@ function PlaylistView(playlist) {
   playlist.onDeleteTrack = bind(this, function(track) { this.deleteTrack(track); });
   playlist.onMoveTrack =
       bind(this, function(track, target) { this.moveTrack(track, target); });
-  /* 
+  playlist.onChange = this.onChange;
+  /*
    * Switch back to the main view when the playlist is deleted, for example
    * by a history undo.
    */
@@ -120,8 +121,19 @@ function PlaylistView(playlist) {
       mainView = new PlaylistSetView(myPlaylists);      
     }
   });
+  /* Back button which switches to the view of all playlists. */
+  var back = document.getElementById('my-playlists-button');
+  back.onclick = bind(this, function() {
+                      this.remove();
+                      mainView = new PlaylistSetView(myPlaylists);
+                      });
+  /* Player widget */
   this.player = new Player(playlist);
-  playlist.onChange = this.onChange;
+  /* Lets the user delete the playlist. */
+  var deleter = document.getElementById('delete-playlist');
+  deleter.onclick = bind(this, function() {
+                         myPlaylists.deletePlaylist(playlist);
+                         });
   this.title = new TitleView(playlist, div);
   this.description = new DescriptionView(playlist, div);
   /* Render the tracks. */
@@ -132,24 +144,16 @@ function PlaylistView(playlist) {
     this.tracksElement.appendChild(track);
     this.tracks.push(track);
   }
-  /* Lets the user search and add tracks. */
+  /* Lets the user search and add public tracks. */
   var search = new SearchWidget(playlist);
-  /* Lets the user delete the playlist. */
-  var deleter = document.getElementById('delete-playlist');
-  deleter.onclick = bind(this, function() {
-    myPlaylists.deletePlaylist(playlist);
-  });
-  /* Back button which switches to the view of all playlists. */
-  var back = document.getElementById('my-playlists-button');
-  back.onclick = bind(this, function() {
-    this.remove();
-    mainView = new PlaylistSetView(myPlaylists);
-  });
+  /* Lets the user add his own private tracks. */
+  this.myTracksView = new MyTracksView(playlist);
 };
 
 /* Hides the view. */
 PlaylistView.prototype.remove = function() {
   this.player.remove();
+  this.myTracksView.remove();
   this.div.style.display = 'none';
   this.tracksElement.innerHTML = '';
   /* Uninstall notification callbacks. */
@@ -389,5 +393,64 @@ DescriptionView.prototype.change = function(event) {
   document.getElementById('description-form').style.display = 'none';
   this.element.style.display = '';
   return false;
+};
+
+
+/**
+ * A view of the user's private tracks. Since private tracks are not surfaced
+ * in search, we show a list of the user's private tracks. We only show his or
+ * her private tracks to keep the list shorter.
+ * @constructor
+ * @param {Playlist} playlist The playlist to which tracks can be added.
+ */
+var MyTracksView = function(playlist) {
+  this.playlist = playlist;
+  /* 
+   * Installs a callback to be notified if the user authenticates and private
+   * tracks become available.
+   */
+  MyTracks.onChange = bind(this, this.render);
+  this.render();
+};
+
+/**
+ * Renders the private tracks, if there are any.
+ */
+MyTracksView.prototype.render = function() {
+  var element = document.getElementById('my-tracks-div');
+  var tracks = MyTracks.tracks;
+  if (tracks.length == 0) {
+    element.style.display = 'none';
+    return;
+  }
+  element.style.display = '';
+  for (var i in tracks) {
+    var track = tracks[i];
+    this.renderTrack(track);
+  }
+};
+
+/**
+ * Renders a track, and lets the user add it to the playlist.
+ * @param {Object} track SoundCloud track.
+ */
+MyTracksView.prototype.renderTrack = function(track) {
+  var result = document.createElement('div');
+  result.className = 'my-track';
+  PlaylistView.fillTrack(result, track);
+  var add = document.createElement('button');
+  add.innerHTML = 'Add';
+  add.onclick = bind(this, function() { this.playlist.addTrack(track); });
+  result.appendChild(add);
+  document.getElementById('my-tracks').appendChild(result);
+};
+
+/**
+ * Removes the tracks UI from the DOM, and resets the notification callback.
+ */
+MyTracksView.prototype.remove = function() {
+  document.getElementById('my-tracks-div').style.display = 'none';
+  document.getElementById('my-tracks').innerHTML = '';
+  MyTracks.onChange = null;
 };
 

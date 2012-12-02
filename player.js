@@ -104,7 +104,8 @@ Player.prototype.playSound = function(sound) {
   /*
    * Preload the next track. Since we don't cancel in-flight streams, it could
    * happen that a slow, previously requested sound might overwrite nextSound
-   * but this is unlikely to happen. */
+   * but this is unlikely to happen.
+   */
   this.nextSound = null;
   if (this.index + 1 < this.playlist.tracks.length) {
     var track = this.playlist.tracks[this.index + 1];

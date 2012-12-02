@@ -3,6 +3,7 @@
  * @fileOverview Lets the user search public SoundCLoud tracks and add them to
  * a playlist.
  * This does not use a model-view design.
+ * Search does not return private tracks; these are rendered separately.
  */
 
 /**
